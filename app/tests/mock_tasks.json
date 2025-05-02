@@ -1,0 +1,20 @@
+[
+  {
+    "name_tsk": "Читать",
+    "description": "много книг",
+    "status": "новая",
+    "user_id": "1"
+  },
+  {
+    "name_tsk": "Написать",
+    "description": "сценарий",
+    "status": "в процессе",
+    "user_id": "2"
+  },
+  {
+    "name_tsk": "Кушать",
+    "description": "вкусно",
+    "status": "завершена",
+    "user_id": "3"
+  }
+]

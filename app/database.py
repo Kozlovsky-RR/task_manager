@@ -1,11 +1,19 @@
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, NullPool
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 import enum
 
-from core.config import Settings
+from app.config import settings
 
-engine = create_async_engine(url="sqlite+aiosqlite:///task_management.db", echo=True)
+
+if settings.MODE == "TEST":
+    DB_URL = f"sqlite+aiosqlite:///{settings.TEST_DB_NAME}"
+    DB_PARAMS = {"poolclass": NullPool}
+else:
+    DB_URL = f"sqlite+aiosqlite:///{settings.DB_NAME}"
+    DB_PARAMS = {}
+
+engine = create_async_engine(url=DB_URL, echo=False, **DB_PARAMS)
 new_session = async_sessionmaker(engine, expire_on_commit=False)
 
 
@@ -38,13 +46,3 @@ class TaskOrm(Model):
     status: Mapped[Status]
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
     user: Mapped["UserOrm"] = relationship(back_populates="tasks")
-
-
-async def create_tables():
-    async with engine.begin() as conn:
-        await conn.run_sync(Model.metadata.create_all)
-
-
-async def delete_tables():
-    async with engine.begin() as conn:
-        await conn.run_sync(Model.metadata.drop_all)

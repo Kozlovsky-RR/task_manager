@@ -1,27 +1,24 @@
 from pathlib import Path
-from pydantic import BaseModel
+from typing import Literal
+
+from pydantic import model_validator
 from pydantic_settings import BaseSettings
 
 
 BASE_DIR = Path(__file__).parent.parent
-DB_PATH = BASE_DIR / "task_management.db"
 
 
-class DbSettings(BaseModel):
-    url: str = f"sqlite+aiosqlite:///{DB_PATH}"
-    echo: bool = False
-
-
-class AuthJWT(BaseModel):
+class Settings(BaseSettings):
+    MODE: Literal["DEV", "TEST", "PROD"]
+    DB_NAME: str
+    TEST_DB_NAME: str
     private_key_path: Path = BASE_DIR / "certs" / "jwt-private.txt"
     public_key_path: Path = BASE_DIR / "certs" / "jwt-public.txt"
     algorithm: str = "RS256"
     access_token_expire_minutes: int = 15
 
-
-class Settings(BaseSettings):
-    auth_jwt: AuthJWT = AuthJWT()
-    db: DbSettings = DbSettings()
+    class Config:
+        env_file = ".env"
 
 
 settings = Settings()
