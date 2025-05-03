@@ -1,10 +1,9 @@
 from sqlalchemy import ForeignKey, NullPool
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 import enum
 
 from app.config import settings
-
 
 if settings.MODE == "TEST":
     DB_URL = f"sqlite+aiosqlite:///{settings.TEST_DB_NAME}"
