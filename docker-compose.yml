@@ -1,4 +1,3 @@
-version: '2.35.1'
 services:
   task_management:
     image: task_management_image
