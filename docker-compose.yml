@@ -1,0 +1,12 @@
+version: '2.35.1'
+services:
+  task_management:
+    image: task_management_image
+    build:
+      context: .
+    container_name: task_management_app
+    env_file:
+      - .env
+    command: ["/task_management/Docker/app.sh"]
+    ports:
+      - 9000:8000

@@ -3,18 +3,54 @@
     "name_tsk": "Читать",
     "description": "много книг",
     "status": "новая",
-    "user_id": "1"
+    "user_id": 1
   },
   {
     "name_tsk": "Написать",
     "description": "сценарий",
     "status": "в процессе",
-    "user_id": "2"
+    "user_id": 1
   },
   {
     "name_tsk": "Кушать",
     "description": "вкусно",
     "status": "завершена",
-    "user_id": "3"
+    "user_id": 1
+  },
+  {
+    "name_tsk": "Бегать",
+    "description": "2 км",
+    "status": "новая",
+    "user_id": 2
+  },
+  {
+    "name_tsk": "Убраться",
+    "description": "в комнате",
+    "status": "в процессе",
+    "user_id": 2
+  },
+  {
+    "name_tsk": "Спать",
+    "description": "10 часов",
+    "status": "завершена",
+    "user_id": 2
+  },
+  {
+    "name_tsk": "Нарисовать",
+    "description": "2 картины",
+    "status": "новая",
+    "user_id": 3
+  },
+  {
+    "name_tsk": "Купить еды",
+    "description": "срочно",
+    "status": "в процессе",
+    "user_id": 3
+  },
+  {
+    "name_tsk": "Приготовить",
+    "description": "рыбу",
+    "status": "завершена",
+    "user_id": 3
   }
 ]

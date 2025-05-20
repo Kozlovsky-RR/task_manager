@@ -2,16 +2,16 @@
   {
     "name": "Ruslan",
     "email": "rus@gmail.com",
-    "password": "12345"
+    "password": "$2b$12$w7Ien2WEtAzyRI73WKdR8eKf6gxfududOPD6z7O5f48rzKh5rbQFW"
   },
   {
     "name": "Alex",
     "email": "al@gmail.com",
-    "password": "11111"
+    "password": "$2b$12$VGsTE8uqRfT53nEaHv7NP.aWvNL3i6.XG1d572FaH69OZG302D5sS"
   },
   {
     "name": "Stan",
     "email": "st@gmail.com",
-    "password": "22222"
+    "password": "$2b$12$cGp3wtSgOQWAzh1xw5x3zO8Bd6lu6mYNNd9G4hUwBYPdp646Ih7l."
   }
 ]

@@ -1,6 +1,8 @@
-from sqlalchemy import ForeignKey, NullPool
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+"""Файл для создания бд"""
+
+from sqlalchemy import NullPool
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
+from sqlalchemy.orm import DeclarativeBase
 import enum
 
 from app.config import settings
@@ -24,24 +26,3 @@ class Status(str, enum.Enum):
     new = "новая"
     in_process = "в процессе"
     completed = "завершена"
-
-
-class UserOrm(Model):
-    __tablename__ = "users"
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str]
-    email: Mapped[str] = mapped_column(unique=True)
-    password: Mapped[str]
-    tasks: Mapped[list["TaskOrm"]] = relationship(back_populates="user")
-
-
-class TaskOrm(Model):
-    __tablename__ = "tasks"
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name_tsk: Mapped[str]
-    description: Mapped[str]
-    status: Mapped[Status]
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
-    user: Mapped["UserOrm"] = relationship(back_populates="tasks")

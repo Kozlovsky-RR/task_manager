@@ -1,51 +1,80 @@
+"""Файл с ручками для задач"""
+
 from typing import Annotated
 from fastapi import APIRouter, Depends
-from app.repository.tasks_repository import TaskRepository
-from app.schemas.tasks_schemas import STaskAdd, STask, STaskID
-from app.auth.jwt_auth import oauth2_scheme
 
-router = APIRouter(prefix="/tasks", tags=["Задачи"])
+from app.exeptions import NoAccessException
+from app.repository.tasks_repository import TaskRepository
+from app.schemas.tasks_schemas import STaskAdd, STask
+from app.auth.jwt_auth import oauth2_scheme
+from app.dependencies import get_user
+from app.schemas.user_schemas import SUser
+
+router = APIRouter(
+    prefix="/tasks", tags=["Задачи"], dependencies=[Depends(oauth2_scheme)]
+)
 
 
 @router.post("")
 async def add_task(
-    task: Annotated[STaskAdd, Depends()], token: str = Depends(oauth2_scheme)
-) -> STaskID:
-    task_id = await TaskRepository.add_task(task)
-    return {"ok": True, "task_id": task_id}
+    task: Annotated[STaskAdd, Depends()], user: SUser = Depends(get_user)
+):
+    """Ручка для добавления задачи"""
+    await TaskRepository.add(
+        name_tsk=task.name_tsk,
+        status=task.status,
+        description=task.description,
+        user_id=user.id,
+    )
 
 
 @router.get("")
-async def get_tasks(token: str = Depends(oauth2_scheme)) -> list[STask]:
-    tasks = await TaskRepository.get_all_tasks()
+async def get_tasks(user: SUser = Depends(get_user)) -> list[STask]:
+    """Ручка для получения всех задач"""
+    tasks = await TaskRepository.find_all(user_id=user.id)
     return tasks
 
 
 @router.get("/{task_id}")
 async def get_one_task(
-    task_id: int, token: str = Depends(oauth2_scheme)
-) -> STask | STaskID:
-    task = await TaskRepository.get_task(task_id)
-    if not task:
-        return {"ok": task, "task_id": 0}
-    return task
+    task_id: int,
+    user: SUser = Depends(get_user),
+) -> STask:
+    """Ручка для получения задачи по id"""
+    task = await TaskRepository.find_by_id(id=task_id, user_id=user.id)
+    if task:
+        return task
+    raise NoAccessException
 
 
 @router.put("/{task_id}")
 async def update_task(
     task_id: int,
     new_task: Annotated[STaskAdd, Depends()],
-    token: str = Depends(oauth2_scheme),
-) -> STaskID:
-    completed = await TaskRepository.update_task(task_id, new_task)
-    if not completed:
-        return {"ok": completed, "task_id": 0}
-    return {"ok": True, "task_id": completed}
+    user: SUser = Depends(get_user),
+):
+    """Ручка для изменения информации о задаче"""
+    old_task = await TaskRepository.find_by_id(id=task_id, user_id=user.id)
+    if old_task:
+        await TaskRepository.update(
+            task_id,
+            name_tsk=new_task.name_tsk,
+            status=new_task.status,
+            description=new_task.description,
+        )
+        return None
+    else:
+        raise NoAccessException
 
 
 @router.delete("/{task_id}")
-async def delete_task(task_id: int, token: str = Depends(oauth2_scheme)) -> STaskID:
-    completed = await TaskRepository.delete_task(task_id)
-    if not completed:
-        return {"ok": completed, "task_id": 0}
-    return {"ok": True, "task_id": completed}
+async def delete_task(
+    task_id: int,
+    user: SUser = Depends(get_user),
+):
+    """Ручка для удаления задачи"""
+    task = await TaskRepository.find_by_id(id=task_id, user_id=user.id)
+    if not task:
+        """если обращаешься не к своей задаче или ее нет"""
+        raise NoAccessException
+    await TaskRepository.delete(id=task_id, user_id=user.id)

@@ -10,7 +10,9 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 from alembic import context
 
 from app.config import settings
-from app.database import Model
+from app.database import Model, DB_URL
+from app.models.users_models import UserOrm
+from app.models.tasks_models import TaskOrm
 
 sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
 # this is the Alembic Config object, which provides
@@ -32,9 +34,7 @@ target_metadata = Model.metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-config.set_main_option(
-    "sqlalchemy.url", "sqlite+aiosqlite:///task_management.db?async_fallback=True"
-)
+config.set_main_option("sqlalchemy.url", f"{DB_URL}?async_fallback=True")
 
 
 def run_migrations_offline() -> None:

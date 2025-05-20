@@ -1,18 +1,19 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from app.database import Status
 
 
 class STaskAdd(BaseModel):
+    """Схема для добавления задачи"""
+
+    model_config = ConfigDict(from_attributes=True)
+
     name_tsk: str
     description: str
     status: Status
-    user_id: int
 
 
 class STask(STaskAdd):
+    """Схема модели таблицы tasks"""
+
     id: int
-
-
-class STaskID(BaseModel):
-    ok: bool = True
-    task_id: int
+    user_id: int
