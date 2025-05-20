@@ -65,7 +65,7 @@ async def test_user_delete():
 async def test_user_update():
     hashed_password = hash_password("12345")
     await UserRepository.update(
-        1, name="Leha", email="L@gmail.com", password=hashed_password
+        2, name="Leha", email="L@gmail.com", password=hashed_password
     )
-    users = await UserRepository.find_by_id(id=1)
+    users = await UserRepository.find_by_id(id=2)
     assert users.email == "L@gmail.com"
