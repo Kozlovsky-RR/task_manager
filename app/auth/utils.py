@@ -1,4 +1,4 @@
-"""Файл с функциями для регистрации и входа"""
+"""Файл с функциями для регистрации и входа."""
 
 from datetime import timedelta, datetime, UTC
 from typing import Annotated
@@ -21,7 +21,7 @@ def encode_jwt(
     expire_minutes: int = settings.access_token_expire_minutes,
     expire_time_delta: timedelta | None = None,
 ) -> str:
-    """Кодирование jwt токена"""
+    """Кодирование jwt токена."""
     to_encode = payload.copy()
     now = datetime.now(UTC)
     if expire_time_delta:
@@ -38,7 +38,7 @@ def decode_jwt(
     public_key: str = settings.public_key_path.read_text(),
     algorithm: str = settings.algorithm,
 ) -> dict:
-    """Декодирование jwt токена"""
+    """Декодирование jwt токена."""
     decoded = jwt.decode(
         token,
         public_key,
@@ -48,21 +48,21 @@ def decode_jwt(
 
 
 def hash_password(password: str) -> bytes:
-    """Хеширование пароля"""
+    """Хеширование пароля."""
     salt = bcrypt.gensalt()
     pwd_bytes: bytes = password.encode()
     return bcrypt.hashpw(pwd_bytes, salt)
 
 
 def validate_password(password: str, hashed_password: bytes) -> bool:
-    """Проверка пароля"""
+    """Проверка пароля."""
     return bcrypt.checkpw(password=password.encode(), hashed_password=hashed_password)
 
 
 async def validate_auth_user(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
 ) -> SUser:
-    """Проверка наличия пользователя"""
+    """Проверка наличия пользователя."""
     user = await UserRepository.find_one_or_none(email=form_data.username)
     if user is None:
         raise UserIsNotPresentException

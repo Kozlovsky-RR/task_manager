@@ -1,4 +1,4 @@
-"""Модель sqlalchemy для создания таблицы tasks"""
+"""Модель sqlalchemy для создания таблицы tasks."""
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -12,6 +12,8 @@ if TYPE_CHECKING:
 
 
 class TaskOrm(Model):
+    """Модель таблицы для создания задач."""
+
     __tablename__ = "tasks"
 
     id: Mapped[int] = mapped_column(primary_key=True)

@@ -1,4 +1,4 @@
-"""Файл конфигураций проекта"""
+"""Файл конфигураций проекта."""
 
 from pathlib import Path
 from typing import Literal
@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).parent.parent
 
 
 class Settings(BaseSettings):
-    """Класс настроек проекта"""
+    """Класс настроек проекта."""
 
     model_config = SettingsConfigDict(
         env_file=".env", env_file_encoding="utf-8", extra="ignore"

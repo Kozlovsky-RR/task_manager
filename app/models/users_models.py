@@ -1,4 +1,4 @@
-"""Модель sqlalchemy для создания таблицы users"""
+"""Модель sqlalchemy для создания таблицы users."""
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import TYPE_CHECKING
@@ -10,6 +10,8 @@ if TYPE_CHECKING:
 
 
 class UserOrm(Model):
+    """Таблица для создания пользователей."""
+
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(primary_key=True)

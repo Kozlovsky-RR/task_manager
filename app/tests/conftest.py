@@ -1,4 +1,4 @@
-"""Файл конфигураций для работы с тестами"""
+"""Файл конфигураций для работы с тестами."""
 
 import asyncio
 
@@ -17,7 +17,7 @@ from app.main import app as fastapi_app
 
 @pytest.fixture(scope="function", autouse=True)
 async def prepare_db():
-    """Подключение к тестовой бд"""
+    """Подключение к тестовой бд."""
     assert settings.MODE == "TEST"
 
     async with engine.begin() as conn:
@@ -54,7 +54,7 @@ def event_loop(request):
 
 @pytest.fixture(scope="function")
 async def ac():
-    """Не аутентифицированный тестовый пользователь"""
+    """Не аутентифицированный тестовый пользователь."""
     async with AsyncClient(
         transport=ASGITransport(app=fastapi_app), base_url="http://test"
     ) as ac:
@@ -63,7 +63,7 @@ async def ac():
 
 @pytest.fixture(scope="session")
 async def authenticated_ac():
-    """Аутентифицированный тестовый пользователь"""
+    """Аутентифицированный тестовый пользователь."""
     async with AsyncClient(
         transport=ASGITransport(app=fastapi_app), base_url="http://test"
     ) as ac:

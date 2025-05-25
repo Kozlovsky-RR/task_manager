@@ -1,4 +1,4 @@
-"""Тесты работы с пользователями"""
+"""Тесты работы с пользователями."""
 
 from httpx import AsyncClient
 import pytest

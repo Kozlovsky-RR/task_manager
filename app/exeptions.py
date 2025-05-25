@@ -1,4 +1,4 @@
-"""Файл с исключениями"""
+"""Файл с исключениями."""
 
 from fastapi import HTTPException, status
 

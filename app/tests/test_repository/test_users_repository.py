@@ -1,4 +1,4 @@
-"""Тесты работы с таблицей users"""
+"""Тесты работы с таблицей users."""
 
 from app.auth.utils import hash_password
 from app.models.users_models import UserOrm

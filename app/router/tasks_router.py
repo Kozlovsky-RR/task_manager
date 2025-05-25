@@ -1,4 +1,4 @@
-"""Файл с ручками для задач"""
+"""Файл с ручками для задач."""
 
 from typing import Annotated
 from fastapi import APIRouter, Depends
@@ -19,7 +19,7 @@ router = APIRouter(
 async def add_task(
     task: Annotated[STaskAdd, Depends()], user: SUser = Depends(get_user)
 ):
-    """Ручка для добавления задачи"""
+    """Ручка для добавления задачи."""
     await TaskRepository.add(
         name_tsk=task.name_tsk,
         status=task.status,
@@ -30,7 +30,7 @@ async def add_task(
 
 @router.get("")
 async def get_tasks(user: SUser = Depends(get_user)) -> list[STask]:
-    """Ручка для получения всех задач"""
+    """Ручка для получения всех задач."""
     tasks = await TaskRepository.find_all(user_id=user.id)
     return tasks
 
@@ -39,8 +39,8 @@ async def get_tasks(user: SUser = Depends(get_user)) -> list[STask]:
 async def get_one_task(
     task_id: int,
     user: SUser = Depends(get_user),
-) -> STask:
-    """Ручка для получения задачи по id"""
+) -> STask | None:
+    """Ручка для получения задачи по id."""
     task = await TaskRepository.find_by_id(id=task_id, user_id=user.id)
     if task:
         return task
@@ -53,7 +53,7 @@ async def update_task(
     new_task: Annotated[STaskAdd, Depends()],
     user: SUser = Depends(get_user),
 ):
-    """Ручка для изменения информации о задаче"""
+    """Ручка для изменения информации о задаче."""
     old_task = await TaskRepository.find_by_id(id=task_id, user_id=user.id)
     if old_task:
         await TaskRepository.update(
@@ -72,7 +72,7 @@ async def delete_task(
     task_id: int,
     user: SUser = Depends(get_user),
 ):
-    """Ручка для удаления задачи"""
+    """Ручка для удаления задачи."""
     task = await TaskRepository.find_by_id(id=task_id, user_id=user.id)
     if not task:
         """если обращаешься не к своей задаче или ее нет"""

@@ -1,4 +1,4 @@
-"""Тесты работы с таблицей tasks"""
+"""Тесты работы с таблицей tasks."""
 
 from app.models.tasks_models import TaskOrm
 from app.repository.tasks_repository import TaskRepository

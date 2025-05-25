@@ -1,4 +1,4 @@
-"""Файл для создания бд"""
+"""Файл для создания бд."""
 
 from sqlalchemy import NullPool
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
@@ -19,10 +19,14 @@ new_session = async_sessionmaker(engine, expire_on_commit=False)
 
 
 class Model(DeclarativeBase):
+    """Базовая модель для таблиц."""
+
     pass
 
 
 class Status(str, enum.Enum):
+    """Состояние задачи."""
+
     new = "новая"
     in_process = "в процессе"
     completed = "завершена"

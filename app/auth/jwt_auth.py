@@ -1,4 +1,4 @@
-"""Файл для регистрации и входа пользователя"""
+"""Файл для регистрации и входа пользователя."""
 
 from typing import Annotated
 
@@ -18,7 +18,7 @@ router = APIRouter(prefix="/auth", tags=["reg/log"])
 
 @router.post("/register/")
 async def add_user(user: Annotated[SUserAdd, Depends()]):
-    """Роутер для регистрации пользователя"""
+    """Роутер для регистрации пользователя."""
     check_user = await UserRepository.find_one_or_none(email=user.email)
     if check_user:
         raise CheckUserException
@@ -28,7 +28,7 @@ async def add_user(user: Annotated[SUserAdd, Depends()]):
 
 @router.post("/login/", response_model=TokenInfo)
 def auth_user_issue_jwt(user: SUser = Depends(validate_auth_user)) -> TokenInfo:
-    """Роутер для входа пользователя и создания jwt токена"""
+    """Роутер для входа пользователя и создания jwt токена."""
     jwt_payload = {"sub": str(user.id), "username": user.name, "email": user.email}
     token = auth_utils.encode_jwt(jwt_payload)
     return TokenInfo(access_token=token, token_type="Bearer")

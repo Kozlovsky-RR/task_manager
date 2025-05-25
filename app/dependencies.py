@@ -1,4 +1,4 @@
-"""Файл с зависимостью для получения юзера из токена"""
+"""Файл с зависимостью для получения юзера из токена."""
 
 from datetime import datetime, UTC
 from fastapi import Request, Depends
@@ -14,6 +14,7 @@ from app.repository.user_repository import UserRepository
 
 
 def get_token(request: Request):
+    """Получение токена."""
     token = request.headers.get("Authorization")
     if not token:
         raise TokenAbsentException
@@ -21,6 +22,7 @@ def get_token(request: Request):
 
 
 async def get_user(token: str = Depends(get_token)):
+    """Получение юзера."""
     try:
         payload = decode_jwt(token=token)
     except PyJWTError:

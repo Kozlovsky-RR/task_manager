@@ -1,4 +1,4 @@
-"""Файл с ручками для пользователей"""
+"""Файл с ручками для пользователей."""
 
 from typing import Annotated
 from fastapi import APIRouter, Depends
@@ -16,15 +16,15 @@ router = APIRouter(
 
 
 @router.get("")
-async def get_users() -> list[SUser]:
-    """Ручка для получения всех пользователей"""
+async def get_users() -> list:
+    """Ручка для получения всех пользователей."""
     user = await UserRepository.find_all()
     return user
 
 
 @router.get("/{user_id}")
-async def get_one_user(user_id: int) -> SUser:
-    """Ручка для получения пользователя по id"""
+async def get_one_user(user_id: int) -> SUser | None:
+    """Ручка для получения пользователя по id."""
     user = await UserRepository.find_by_id(id=user_id)
     if not user:
         raise UserIsNotPresentException
@@ -36,7 +36,7 @@ async def update_user(
     user_id: int,
     new_user: Annotated[SUserAdd, Depends()],
 ):
-    """Ручка для изменения данных пользователя"""
+    """Ручка для изменения данных пользователя."""
     check_user = await UserRepository.find_by_id(id=user_id)
     if not check_user:
         raise UserIsNotPresentException
@@ -48,7 +48,7 @@ async def update_user(
 
 @router.delete("/{user_id}")
 async def delete_user(user_id: int):
-    """Ручка для удаления пользователя"""
+    """Ручка для удаления пользователя."""
     check_user = await UserRepository.find_by_id(id=user_id)
     if not check_user:
         raise UserIsNotPresentException
