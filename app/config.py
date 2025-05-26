@@ -1,11 +1,7 @@
 """Файл конфигураций проекта."""
 
-from pathlib import Path
 from typing import Literal
-
 from pydantic_settings import BaseSettings, SettingsConfigDict
-
-BASE_DIR = Path(__file__).parent.parent
 
 
 class Settings(BaseSettings):
@@ -17,10 +13,16 @@ class Settings(BaseSettings):
     MODE: Literal["DEV", "TEST", "PROD"]
     DB_NAME: str
     TEST_DB_NAME: str
-    private_key_path: Path = BASE_DIR / "certs" / "jwt-private.txt"
-    public_key_path: Path = BASE_DIR / "certs" / "jwt-public.txt"
-    algorithm: str = "RS256"
+    PRIVATE_KEY: str
+    PUBLIC_KEY: str
+    ALGORITHM: str
     access_token_expire_minutes: int = 15
+
+    def get_private_key(self):
+        return self.PRIVATE_KEY.replace("\\n", "\n")
+
+    def get_public_key(self):
+        return self.PUBLIC_KEY.replace("\\n", "\n")
 
 
 settings = Settings()

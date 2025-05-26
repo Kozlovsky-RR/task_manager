@@ -16,8 +16,8 @@ from app.schemas.user_schemas import SUser
 
 def encode_jwt(
     payload: dict,
-    private_key: str = settings.private_key_path.read_text(),
-    algorithm: str = settings.algorithm,
+    private_key: str = settings.get_private_key(),
+    algorithm: str = settings.ALGORITHM,
     expire_minutes: int = settings.access_token_expire_minutes,
     expire_time_delta: timedelta | None = None,
 ) -> str:
@@ -35,8 +35,8 @@ def encode_jwt(
 
 def decode_jwt(
     token: str | bytes,
-    public_key: str = settings.public_key_path.read_text(),
-    algorithm: str = settings.algorithm,
+    public_key: str = settings.get_public_key(),
+    algorithm: str = settings.ALGORITHM,
 ) -> dict:
     """Декодирование jwt токена."""
     decoded = jwt.decode(
