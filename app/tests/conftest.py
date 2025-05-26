@@ -18,31 +18,32 @@ from app.main import app as fastapi_app
 @pytest.fixture(scope="function", autouse=True)
 async def prepare_db():
     """Подключение к тестовой бд."""
-    assert settings.MODE == "TEST"
+    if settings.MODE == "TEST":
+        async with engine.begin() as conn:
+            await conn.run_sync(Model.metadata.drop_all)
+            await conn.run_sync(Model.metadata.create_all)
 
-    async with engine.begin() as conn:
-        await conn.run_sync(Model.metadata.drop_all)
-        await conn.run_sync(Model.metadata.create_all)
+        def open_mock_json(model: str):
+            with open(
+                f"app/tests/mock_{model}.json", encoding="utf-8", mode="r"
+            ) as file:
+                return json.load(file)
 
-    def open_mock_json(model: str):
-        with open(f"app/tests/mock_{model}.json", encoding="utf-8", mode="r") as file:
-            return json.load(file)
+        users = open_mock_json("users")
+        tasks = open_mock_json("tasks")
 
-    users = open_mock_json("users")
-    tasks = open_mock_json("tasks")
+        for i in users:
+            i.update(password=bytes(i.get("password"), "utf-8"))
 
-    for i in users:
-        i.update(password=bytes(i.get("password"), "utf-8"))
+        async with new_session() as session:
+            """Наполнение данными тестовой бд"""
+            add_users = insert(UserOrm).values(users)
+            add_tasks = insert(TaskOrm).values(tasks)
 
-    async with new_session() as session:
-        """Наполнение данными тестовой бд"""
-        add_users = insert(UserOrm).values(users)
-        add_tasks = insert(TaskOrm).values(tasks)
+            await session.execute(add_users)
+            await session.execute(add_tasks)
 
-        await session.execute(add_users)
-        await session.execute(add_tasks)
-
-        await session.commit()
+            await session.commit()
 
 
 @pytest.fixture(scope="session")
