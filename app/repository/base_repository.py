@@ -38,7 +38,7 @@ class BaseRepository:
             return schemas
 
     @classmethod
-    async def add(cls, **data):
+    async def add(cls, **data) -> None:
         """Метод для добавления какого либо объекта."""
         async with new_session() as session:
             query = insert(cls.model).values(**data)
@@ -46,7 +46,7 @@ class BaseRepository:
             await session.commit()
 
     @classmethod
-    async def delete(cls, **filter_by):
+    async def delete(cls, **filter_by) -> None:
         """Метод для удаления какого либо объекта."""
         async with new_session() as session:
             query = delete(cls.model).filter_by(**filter_by)
@@ -54,7 +54,7 @@ class BaseRepository:
             await session.commit()
 
     @classmethod
-    async def update(cls, model_id: int, **new_values):
+    async def update(cls, model_id: int, **new_values) -> None:
         """Метод для изменения какого либо объекта."""
         async with new_session() as session:
             query = update(cls.model).filter_by(id=model_id).values(**new_values)
