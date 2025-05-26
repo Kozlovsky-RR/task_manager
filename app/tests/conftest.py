@@ -44,6 +44,8 @@ async def prepare_db():
             await session.execute(add_tasks)
 
             await session.commit()
+    else:
+        raise ValueError("Ошибка при подключении к тестовой бд")
 
 
 @pytest.fixture(scope="session")
