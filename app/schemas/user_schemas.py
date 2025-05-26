@@ -3,7 +3,7 @@
 from pydantic import BaseModel, EmailStr, ConfigDict
 
 
-class SUserAdd(BaseModel):
+class SchemaUserAdd(BaseModel):
     """Схема для добавления пользователя."""
 
     model_config = ConfigDict(from_attributes=True)
@@ -13,7 +13,7 @@ class SUserAdd(BaseModel):
     password: str
 
 
-class SUser(SUserAdd):
+class SchemaUser(SchemaUserAdd):
     """Схема модели таблицы users."""
 
     id: int

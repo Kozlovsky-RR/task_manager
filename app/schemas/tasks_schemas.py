@@ -5,7 +5,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from app.database import Status
 
 
-class STaskAdd(BaseModel):
+class SchemaTaskAdd(BaseModel):
     """Схема для добавления задачи."""
 
     model_config = ConfigDict(from_attributes=True)
@@ -15,7 +15,7 @@ class STaskAdd(BaseModel):
     status: Status
 
 
-class STask(STaskAdd):
+class SchemaTask(SchemaTaskAdd):
     """Схема модели таблицы tasks."""
 
     id: int

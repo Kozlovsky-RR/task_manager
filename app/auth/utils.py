@@ -11,7 +11,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from app.config import settings
 from app.exceptions import UserIsNotPresentException, UnauthedException
 from app.repository.user_repository import UserRepository
-from app.schemas.user_schemas import SUser
+from app.schemas.user_schemas import SchemaUser
 
 
 def encode_jwt(
@@ -61,7 +61,7 @@ def validate_password(password: str, hashed_password: bytes) -> bool:
 
 async def validate_auth_user(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-) -> SUser:
+) -> SchemaUser:
     """Проверка наличия пользователя."""
     user = await UserRepository.find_one_or_none(email=form_data.username)
     if user is None:

@@ -5,10 +5,10 @@ from fastapi import APIRouter, Depends
 
 from app.exceptions import NoAccessException
 from app.repository.tasks_repository import TaskRepository
-from app.schemas.tasks_schemas import STaskAdd, STask
+from app.schemas.tasks_schemas import SchemaTaskAdd, SchemaTask
 from app.auth.jwt_auth import oauth2_scheme
 from app.dependencies import get_user
-from app.schemas.user_schemas import SUser
+from app.schemas.user_schemas import SchemaUser
 
 router = APIRouter(
     prefix="/tasks", tags=["Задачи"], dependencies=[Depends(oauth2_scheme)]
@@ -17,7 +17,7 @@ router = APIRouter(
 
 @router.post("")
 async def add_task(
-    task: Annotated[STaskAdd, Depends()], user: SUser = Depends(get_user)
+    task: Annotated[SchemaTaskAdd, Depends()], user: SchemaUser = Depends(get_user)
 ) -> None:
     """Ручка для добавления задачи."""
     await TaskRepository.add(
@@ -29,7 +29,7 @@ async def add_task(
 
 
 @router.get("")
-async def get_tasks(user: SUser = Depends(get_user)) -> list[STask]:
+async def get_tasks(user: SchemaUser = Depends(get_user)) -> list[SchemaTask]:
     """Ручка для получения всех задач."""
     tasks = await TaskRepository.find_all(user_id=user.id)
     return tasks
@@ -38,8 +38,8 @@ async def get_tasks(user: SUser = Depends(get_user)) -> list[STask]:
 @router.get("/{task_id}")
 async def get_one_task(
     task_id: int,
-    user: SUser = Depends(get_user),
-) -> STask | None:
+    user: SchemaUser = Depends(get_user),
+) -> SchemaTask | None:
     """Ручка для получения задачи по id."""
     task = await TaskRepository.find_by_id(id=task_id, user_id=user.id)
     if task:
@@ -50,8 +50,8 @@ async def get_one_task(
 @router.put("/{task_id}")
 async def update_task(
     task_id: int,
-    new_task: Annotated[STaskAdd, Depends()],
-    user: SUser = Depends(get_user),
+    new_task: Annotated[SchemaTaskAdd, Depends()],
+    user: SchemaUser = Depends(get_user),
 ) -> None:
     """Ручка для изменения информации о задаче."""
     old_task = await TaskRepository.find_by_id(id=task_id, user_id=user.id)
@@ -70,7 +70,7 @@ async def update_task(
 @router.delete("/{task_id}")
 async def delete_task(
     task_id: int,
-    user: SUser = Depends(get_user),
+    user: SchemaUser = Depends(get_user),
 ) -> None:
     """Ручка для удаления задачи."""
     task = await TaskRepository.find_by_id(id=task_id, user_id=user.id)

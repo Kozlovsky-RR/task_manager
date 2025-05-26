@@ -9,10 +9,10 @@ class BaseRepository:
     """Базовый класс для подключения к таблице."""
 
     model = None
-    schemas = None
+    schema = None
 
     @classmethod
-    async def find_by_id(cls, **filter_by) -> schemas:
+    async def find_by_id(cls, **filter_by) -> schema:
         """Метод для поиска по id."""
         async with new_session() as session:
             query = select(cls.model).filter_by(**filter_by)
@@ -20,7 +20,7 @@ class BaseRepository:
             return result.scalar_one_or_none()
 
     @classmethod
-    async def find_one_or_none(cls, **filter_by) -> schemas:
+    async def find_one_or_none(cls, **filter_by) -> schema:
         """Метод для поиска какого либо объекта."""
         async with new_session() as session:
             query = select(cls.model).filter_by(**filter_by)
@@ -28,13 +28,13 @@ class BaseRepository:
             return result.scalar_one_or_none()
 
     @classmethod
-    async def find_all(cls, **filter_by) -> list[schemas]:
+    async def find_all(cls, **filter_by) -> list[schema]:
         """Метод для поиска всех объектов."""
         async with new_session() as session:
             query = select(cls.model).filter_by(**filter_by)
             result = await session.execute(query)
             models = result.scalars().all()
-            schemas = [cls.schemas.model_validate(model) for model in models]
+            schemas = [cls.schema.model_validate(model) for model in models]
             return schemas
 
     @classmethod

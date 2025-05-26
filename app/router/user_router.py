@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends
 from app.auth.utils import hash_password
 from app.exceptions import UserIsNotPresentException
 from app.repository.user_repository import UserRepository
-from app.schemas.user_schemas import SUser, SUserAdd
+from app.schemas.user_schemas import SchemaUser, SchemaUserAdd
 from app.auth.jwt_auth import oauth2_scheme
 
 
@@ -23,7 +23,7 @@ async def get_users() -> list:
 
 
 @router.get("/{user_id}")
-async def get_one_user(user_id: int) -> SUser | None:
+async def get_one_user(user_id: int) -> SchemaUser | None:
     """Ручка для получения пользователя по id."""
     user = await UserRepository.find_by_id(id=user_id)
     if not user:
@@ -34,7 +34,7 @@ async def get_one_user(user_id: int) -> SUser | None:
 @router.put("/{user_id}")
 async def update_user(
     user_id: int,
-    new_user: Annotated[SUserAdd, Depends()],
+    new_user: Annotated[SchemaUserAdd, Depends()],
 ) -> None:
     """Ручка для изменения данных пользователя."""
     check_user = await UserRepository.find_by_id(id=user_id)
