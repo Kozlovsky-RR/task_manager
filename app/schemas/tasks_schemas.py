@@ -1,6 +1,7 @@
 """Схемы задач."""
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
+
 from app.database import Status
 
 
@@ -9,7 +10,7 @@ class STaskAdd(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
-    name_tsk: str
+    name: str = Field(max_length=30)
     description: str
     status: Status
 

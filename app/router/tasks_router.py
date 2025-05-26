@@ -21,7 +21,7 @@ async def add_task(
 ) -> None:
     """Ручка для добавления задачи."""
     await TaskRepository.add(
-        name_tsk=task.name_tsk,
+        name=task.name,
         status=task.status,
         description=task.description,
         user_id=user.id,
@@ -58,7 +58,7 @@ async def update_task(
     if old_task:
         await TaskRepository.update(
             task_id,
-            name_tsk=new_task.name_tsk,
+            name=new_task.name,
             status=new_task.status,
             description=new_task.description,
         )

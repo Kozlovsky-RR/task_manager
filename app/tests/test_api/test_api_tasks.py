@@ -5,18 +5,18 @@ import pytest
 
 
 @pytest.mark.parametrize(
-    "name_tsk, status, description, status_code",
+    "name, status, description, status_code",
     [
         ("прочитать", "новая", "2 книги", 200),
         ("прочитать", "asdf", "2 книги", 422),
     ],
 )
 async def test_add_task(
-    name_tsk, status, description, status_code, authenticated_ac: AsyncClient
+    name, status, description, status_code, authenticated_ac: AsyncClient
 ):
     response = await authenticated_ac.post(
         url="/tasks",
-        params={"name_tsk": name_tsk, "status": status, "description": description},
+        params={"name": name, "status": status, "description": description},
     )
 
     assert response.status_code == status_code
@@ -45,7 +45,7 @@ async def test_get_task(task_id, status_code, authenticated_ac: AsyncClient):
 
 
 @pytest.mark.parametrize(
-    "task_id, name_tsk, status, description, status_code",
+    "task_id, name, status, description, status_code",
     [
         (2, "прочитать", "новая", "2 книги", 200),
         (4, "прочитать", "новая", "2 книги", 403),
@@ -53,11 +53,11 @@ async def test_get_task(task_id, status_code, authenticated_ac: AsyncClient):
     ],
 )
 async def test_update_task(
-    task_id, name_tsk, status, description, status_code, authenticated_ac: AsyncClient
+    task_id, name, status, description, status_code, authenticated_ac: AsyncClient
 ):
     response = await authenticated_ac.put(
         url=f"/tasks/{task_id}",
-        params={"name_tsk": name_tsk, "status": status, "description": description},
+        params={"name": name, "status": status, "description": description},
     )
 
     assert response.status_code == status_code

@@ -1,6 +1,6 @@
 """Модель sqlalchemy для создания таблицы tasks."""
 
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Model, Status
@@ -17,7 +17,7 @@ class TaskOrm(Model):
     __tablename__ = "tasks"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    name_tsk: Mapped[str]
+    name: Mapped[str] = mapped_column(String(length=30))
     description: Mapped[str]
     status: Mapped[Status]
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))

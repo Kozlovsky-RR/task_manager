@@ -6,41 +6,41 @@ import pytest
 
 
 @pytest.mark.parametrize(
-    "task_id, user_id, name_tsk, exists",
+    "task_id, user_id, name, exists",
     [
         (1, 1, "Читать", True),
         (4, 2, "Бегать", True),
         (1, 2, "asdf", False),
     ],
 )
-async def test_task_find_by_id(task_id, user_id, name_tsk, exists):
+async def test_task_find_by_id(task_id, user_id, name, exists):
     task: TaskOrm | None = await TaskRepository.find_by_id(id=task_id, user_id=user_id)
 
     if exists:
         assert task
         assert task.id == task_id
         assert task.user_id == user_id
-        assert task.name_tsk == name_tsk
+        assert task.name == name
     else:
         assert not task
 
 
 @pytest.mark.parametrize(
-    "task_id, user_id, name_tsk, exists",
+    "task_id, user_id, name, exists",
     [
         (1, 1, "Читать", True),
         (4, 2, "Бегать", True),
         (1, 2, "asdf", False),
     ],
 )
-async def test_task_find_by_id(task_id, user_id, name_tsk, exists):
+async def test_task_find_by_id(task_id, user_id, name, exists):
     task: TaskOrm | None = await TaskRepository.find_by_id(id=task_id, user_id=user_id)
 
     if exists:
         assert task
         assert task.id == task_id
         assert task.user_id == user_id
-        assert task.name_tsk == name_tsk
+        assert task.name == name
     else:
         assert not task
 
@@ -64,7 +64,7 @@ async def test_tasks_find_all(user_id, exists):
 
 async def test_task_add():
     await TaskRepository.add(
-        name_tsk="Делать зарядку", status="новая", description="Каждое утро", user_id=1
+        name="Делать зарядку", status="новая", description="Каждое утро", user_id=1
     )
     tasks = await TaskRepository.find_all(user_id=1)
     assert len(tasks) > 3
@@ -79,10 +79,10 @@ async def test_task_delete():
 async def test_task_update():
     await TaskRepository.update(
         1,
-        name_tsk="Делать зарядку",
+        name="Делать зарядку",
         status="новая",
         description="Каждое утро",
         user_id=1,
     )
     task = await TaskRepository.find_by_id(id=1)
-    assert task.name_tsk == "Делать зарядку"
+    assert task.name == "Делать зарядку"
