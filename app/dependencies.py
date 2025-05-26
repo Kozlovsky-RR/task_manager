@@ -4,7 +4,7 @@ from datetime import datetime, UTC
 from fastapi import Request, Depends
 from jwt import PyJWTError
 from app.auth.utils import decode_jwt
-from app.exeptions import (
+from app.exceptions import (
     TokenExpiredException,
     TokenAbsentException,
     IncorrectTokenFormatException,

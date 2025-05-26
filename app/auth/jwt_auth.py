@@ -4,7 +4,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends
 from app.auth import utils as auth_utils
-from app.exeptions import CheckUserException
+from app.exceptions import CheckUserException
 from app.auth.token_schemas import TokenInfo
 from app.repository.user_repository import UserRepository
 from app.schemas.user_schemas import SUserAdd, SUser

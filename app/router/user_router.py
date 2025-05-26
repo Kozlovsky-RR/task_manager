@@ -4,7 +4,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 
 from app.auth.utils import hash_password
-from app.exeptions import UserIsNotPresentException
+from app.exceptions import UserIsNotPresentException
 from app.repository.user_repository import UserRepository
 from app.schemas.user_schemas import SUser, SUserAdd
 from app.auth.jwt_auth import oauth2_scheme

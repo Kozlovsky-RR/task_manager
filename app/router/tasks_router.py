@@ -3,7 +3,7 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends
 
-from app.exeptions import NoAccessException
+from app.exceptions import NoAccessException
 from app.repository.tasks_repository import TaskRepository
 from app.schemas.tasks_schemas import STaskAdd, STask
 from app.auth.jwt_auth import oauth2_scheme

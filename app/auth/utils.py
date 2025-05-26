@@ -9,7 +9,7 @@ from fastapi import Depends
 from fastapi.security import OAuth2PasswordRequestForm
 
 from app.config import settings
-from app.exeptions import UserIsNotPresentException, UnauthedException
+from app.exceptions import UserIsNotPresentException, UnauthedException
 from app.repository.user_repository import UserRepository
 from app.schemas.user_schemas import SUser
 
