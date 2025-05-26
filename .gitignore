@@ -9,3 +9,4 @@ __pycache__/
 *.pyd
 test_task_management.db
 task_management.db
+poetry.lock
