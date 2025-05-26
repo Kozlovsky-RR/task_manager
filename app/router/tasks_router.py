@@ -18,7 +18,7 @@ router = APIRouter(
 @router.post("")
 async def add_task(
     task: Annotated[STaskAdd, Depends()], user: SUser = Depends(get_user)
-):
+) -> None:
     """Ручка для добавления задачи."""
     await TaskRepository.add(
         name_tsk=task.name_tsk,
@@ -52,7 +52,7 @@ async def update_task(
     task_id: int,
     new_task: Annotated[STaskAdd, Depends()],
     user: SUser = Depends(get_user),
-):
+) -> None:
     """Ручка для изменения информации о задаче."""
     old_task = await TaskRepository.find_by_id(id=task_id, user_id=user.id)
     if old_task:
@@ -71,7 +71,7 @@ async def update_task(
 async def delete_task(
     task_id: int,
     user: SUser = Depends(get_user),
-):
+) -> None:
     """Ручка для удаления задачи."""
     task = await TaskRepository.find_by_id(id=task_id, user_id=user.id)
     if not task:

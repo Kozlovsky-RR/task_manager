@@ -35,7 +35,7 @@ async def get_one_user(user_id: int) -> SUser | None:
 async def update_user(
     user_id: int,
     new_user: Annotated[SUserAdd, Depends()],
-):
+) -> None:
     """Ручка для изменения данных пользователя."""
     check_user = await UserRepository.find_by_id(id=user_id)
     if not check_user:
@@ -47,7 +47,7 @@ async def update_user(
 
 
 @router.delete("/{user_id}")
-async def delete_user(user_id: int):
+async def delete_user(user_id: int) -> None:
     """Ручка для удаления пользователя."""
     check_user = await UserRepository.find_by_id(id=user_id)
     if not check_user:

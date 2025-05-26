@@ -14,7 +14,7 @@ import pytest
     ],
 )
 async def test_task_find_by_id(task_id, user_id, name_tsk, exists):
-    task: TaskOrm = await TaskRepository.find_by_id(id=task_id, user_id=user_id)
+    task: TaskOrm | None = await TaskRepository.find_by_id(id=task_id, user_id=user_id)
 
     if exists:
         assert task
@@ -34,7 +34,7 @@ async def test_task_find_by_id(task_id, user_id, name_tsk, exists):
     ],
 )
 async def test_task_find_by_id(task_id, user_id, name_tsk, exists):
-    task: TaskOrm = await TaskRepository.find_by_id(id=task_id, user_id=user_id)
+    task: TaskOrm | None = await TaskRepository.find_by_id(id=task_id, user_id=user_id)
 
     if exists:
         assert task

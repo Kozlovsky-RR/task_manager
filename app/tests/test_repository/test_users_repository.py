@@ -15,7 +15,7 @@ import pytest
     ],
 )
 async def test_user_find_by_id(user_id, email, exists):
-    user: UserOrm = await UserRepository.find_by_id(id=user_id)
+    user: UserOrm | None = await UserRepository.find_by_id(id=user_id)
 
     if exists:
         assert user
@@ -34,7 +34,7 @@ async def test_user_find_by_id(user_id, email, exists):
     ],
 )
 async def test_user_find_one_or_none(user_id, email, exists):
-    user: UserOrm = await UserRepository.find_by_id(email=email)
+    user: UserOrm | None = await UserRepository.find_by_id(email=email)
 
     if exists:
         assert user
