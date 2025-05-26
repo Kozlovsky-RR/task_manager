@@ -1,11 +1,11 @@
 venv/
 .venv/
 .idea/
-.env/
+.env
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyc
 *.pyd
-test_task_management.db/
-task_management.db/
+test_task_management.db
+task_management.db
