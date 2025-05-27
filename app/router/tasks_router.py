@@ -10,6 +10,7 @@ from app.auth.jwt_auth import oauth2_scheme
 from app.dependencies import get_user
 from app.schemas.user_schemas import SchemaUser
 
+
 router = APIRouter(
     prefix="/tasks", tags=["Задачи"], dependencies=[Depends(oauth2_scheme)]
 )
