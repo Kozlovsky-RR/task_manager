@@ -48,6 +48,7 @@ async def update_user(
     )
     logger.info("the user has been changed")
 
+
 @router.delete("/{user_id}")
 async def delete_user(user_id: int) -> None:
     """Ручка для удаления пользователя."""
