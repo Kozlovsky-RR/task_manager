@@ -25,7 +25,8 @@ dependencies = [
     "email-validator (>=2.2.0,<3.0.0)",
     "alembic (>=1.15.2,<2.0.0)",
     "pytest-dotenv (>=0.5.2,<0.6.0)",
-    "gunicorn (>=23.0.0,<24.0.0)"
+    "gunicorn (>=23.0.0,<24.0.0)",
+    "loguru (>=0.7.3,<0.8.0)"
 ]
 
 [tool.poetry]

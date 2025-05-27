@@ -12,6 +12,7 @@ from app.config import settings
 from app.exceptions import UserIsNotPresentException, UnauthedException
 from app.repository.user_repository import UserRepository
 from app.schemas.user_schemas import SchemaUser
+from app.logger import logger
 
 
 def encode_jwt(
@@ -65,10 +66,12 @@ async def validate_auth_user(
     """Проверка наличия пользователя."""
     user = await UserRepository.find_one_or_none(email=form_data.username)
     if user is None:
+        logger.exception("The user does not exist")
         raise UserIsNotPresentException
     if (
         validate_password(password=form_data.password, hashed_password=user.password)
         is False
     ):
         raise UnauthedException
+    logger.info("The user is authenticated")
     return user

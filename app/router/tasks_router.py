@@ -9,7 +9,7 @@ from app.schemas.tasks_schemas import SchemaTaskAdd, SchemaTask
 from app.auth.jwt_auth import oauth2_scheme
 from app.dependencies import get_user
 from app.schemas.user_schemas import SchemaUser
-
+from app.logger import logger
 
 router = APIRouter(
     prefix="/tasks", tags=["Задачи"], dependencies=[Depends(oauth2_scheme)]
@@ -27,6 +27,7 @@ async def add_task(
         description=task.description,
         user_id=user.id,
     )
+    logger.info("task added")
 
 
 @router.get("")
@@ -45,6 +46,7 @@ async def get_one_task(
     task = await TaskRepository.find_by_id(id=task_id, user_id=user.id)
     if task:
         return task
+    logger.exception("no access")
     raise NoAccessException
 
 
@@ -63,8 +65,10 @@ async def update_task(
             status=new_task.status,
             description=new_task.description,
         )
+        logger.info("the task has been changed")
         return None
     else:
+        logger.exception("no access")
         raise NoAccessException
 
 
@@ -77,5 +81,7 @@ async def delete_task(
     task = await TaskRepository.find_by_id(id=task_id, user_id=user.id)
     if not task:
         """если обращаешься не к своей задаче или ее нет"""
+        logger.exception("no access")
         raise NoAccessException
     await TaskRepository.delete(id=task_id, user_id=user.id)
+    logger.info("task deleted")

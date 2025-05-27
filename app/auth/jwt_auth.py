@@ -10,7 +10,7 @@ from app.repository.user_repository import UserRepository
 from app.schemas.user_schemas import SchemaUserAdd, SchemaUser
 from fastapi.security import OAuth2PasswordBearer
 from app.auth.utils import hash_password, validate_auth_user
-
+from app.logger import logger
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login/")
 router = APIRouter(prefix="/auth", tags=["reg/log"])
@@ -21,9 +21,11 @@ async def add_user(user: Annotated[SchemaUserAdd, Depends()]):
     """Роутер для регистрации пользователя."""
     check_user = await UserRepository.find_one_or_none(email=user.email)
     if check_user:
+        logger.exception("The user already exists")
         raise CheckUserException
     hashed_password = hash_password(user.password)
     await UserRepository.add(name=user.name, email=user.email, password=hashed_password)
+    logger.info("The user is registered")
 
 
 @router.post("/login/", response_model=TokenInfo)

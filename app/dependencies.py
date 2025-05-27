@@ -11,6 +11,7 @@ from app.exceptions import (
     UserIsNotPresentException,
 )
 from app.repository.user_repository import UserRepository
+from app.logger import logger
 
 
 def get_token(request: Request):
@@ -32,8 +33,10 @@ async def get_user(token: str = Depends(get_token)):
         raise TokenExpiredException
     user_id: str = payload.get("sub")
     if not user_id:
+        logger.exception("The user does not exist")
         raise UserIsNotPresentException
     user = await UserRepository.find_by_id(id=int(user_id))
     if not user:
+        logger.exception("The user does not exist")
         raise UserIsNotPresentException
     return user
