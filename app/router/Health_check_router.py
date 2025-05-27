@@ -1,6 +1,7 @@
 """Файл с ручкой для проверки состояния приложения."""
 
 from fastapi import APIRouter
+
 from app.logger import logger
 
 router = APIRouter(prefix="/health", tags=["Healthcheck"])

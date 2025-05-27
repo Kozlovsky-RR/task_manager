@@ -1,15 +1,16 @@
 """Файл с ручками для задач."""
 
 from typing import Annotated
+
 from fastapi import APIRouter, Depends
 
-from app.exceptions import NoAccessException
-from app.repository.tasks_repository import TaskRepository
-from app.schemas.tasks_schemas import SchemaTaskAdd, SchemaTask
 from app.auth.jwt_auth import oauth2_scheme
 from app.dependencies import get_user
-from app.schemas.user_schemas import SchemaUser
+from app.exceptions import NoAccessException
 from app.logger import logger
+from app.repository.tasks_repository import TaskRepository
+from app.schemas.tasks_schemas import SchemaTask, SchemaTaskAdd
+from app.schemas.user_schemas import SchemaUser
 
 router = APIRouter(
     prefix="/tasks", tags=["Задачи"], dependencies=[Depends(oauth2_scheme)]
@@ -80,7 +81,7 @@ async def delete_task(
     """Ручка для удаления задачи."""
     task = await TaskRepository.find_by_id(id=task_id, user_id=user.id)
     if not task:
-        """если обращаешься не к своей задаче или ее нет"""
+        """Если обращаешься не к своей задаче или ее нет."""
         logger.exception("no access")
         raise NoAccessException
     await TaskRepository.delete(id=task_id, user_id=user.id)

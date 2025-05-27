@@ -1,7 +1,7 @@
 """Тесты регистрации и входа пользователя."""
 
-from httpx import AsyncClient
 import pytest
+from httpx import AsyncClient
 
 
 @pytest.mark.parametrize(

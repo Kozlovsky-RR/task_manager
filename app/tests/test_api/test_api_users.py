@@ -1,7 +1,7 @@
 """Тесты работы с пользователями."""
 
-from httpx import AsyncClient
 import pytest
+from httpx import AsyncClient
 
 
 async def test_get_users(authenticated_ac: AsyncClient):

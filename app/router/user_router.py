@@ -1,14 +1,15 @@
 """Файл с ручками для пользователей."""
 
 from typing import Annotated
+
 from fastapi import APIRouter, Depends
 
+from app.auth.jwt_auth import oauth2_scheme
 from app.auth.utils import hash_password
 from app.exceptions import UserIsNotPresentException
+from app.logger import logger
 from app.repository.user_repository import UserRepository
 from app.schemas.user_schemas import SchemaUser, SchemaUserAdd
-from app.auth.jwt_auth import oauth2_scheme
-from app.logger import logger
 
 router = APIRouter(
     prefix="/users", tags=["Пользователи"], dependencies=[Depends(oauth2_scheme)]

@@ -3,14 +3,15 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends
-from app.auth import utils as auth_utils
-from app.exceptions import CheckUserException
-from app.auth.token_schemas import TokenInfo
-from app.repository.user_repository import UserRepository
-from app.schemas.user_schemas import SchemaUserAdd, SchemaUser
 from fastapi.security import OAuth2PasswordBearer
+
+from app.auth import utils as auth_utils
+from app.auth.token_schemas import TokenInfo
 from app.auth.utils import hash_password, validate_auth_user
+from app.exceptions import CheckUserException
 from app.logger import logger
+from app.repository.user_repository import UserRepository
+from app.schemas.user_schemas import SchemaUser, SchemaUserAdd
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login/")
 router = APIRouter(prefix="/auth", tags=["reg/log"])

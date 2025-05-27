@@ -1,7 +1,8 @@
-from loguru import logger
-import sys
 import os
+import sys
 from pathlib import Path
+
+from loguru import logger
 
 # Папка для логов
 log_path = Path("logs")

@@ -1,8 +1,8 @@
 """Базовый класс для работы с таблицами."""
 
-from app.database import new_session
+from sqlalchemy import delete, insert, select, update
 
-from sqlalchemy import select, insert, delete, update
+from app.database import new_session
 
 
 class BaseRepository:

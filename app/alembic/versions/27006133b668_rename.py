@@ -1,16 +1,14 @@
-"""rename
+"""rename.
 
 Revision ID: 27006133b668
 Revises: 5a5d78954c4e
 Create Date: 2025-05-26 16:52:54.493825
-
 """
 
 from typing import Sequence, Union
 
-from alembic import op
 import sqlalchemy as sa
-
+from alembic import op
 
 # revision identifiers, used by Alembic.
 revision: str = "27006133b668"

@@ -1,7 +1,7 @@
 """Тесты работы с задачами."""
 
-from httpx import AsyncClient
 import pytest
+from httpx import AsyncClient
 
 
 @pytest.mark.parametrize(

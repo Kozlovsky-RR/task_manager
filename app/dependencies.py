@@ -1,17 +1,19 @@
 """Файл с зависимостью для получения юзера из токена."""
 
-from datetime import datetime, UTC
-from fastapi import Request, Depends
+from datetime import UTC, datetime
+
+from fastapi import Depends, Request
 from jwt import PyJWTError
+
 from app.auth.utils import decode_jwt
 from app.exceptions import (
-    TokenExpiredException,
-    TokenAbsentException,
     IncorrectTokenFormatException,
+    TokenAbsentException,
+    TokenExpiredException,
     UserIsNotPresentException,
 )
-from app.repository.user_repository import UserRepository
 from app.logger import logger
+from app.repository.user_repository import UserRepository
 
 
 def get_token(request: Request):

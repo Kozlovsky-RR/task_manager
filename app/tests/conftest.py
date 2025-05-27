@@ -1,18 +1,17 @@
 """Файл конфигураций для работы с тестами."""
 
 import asyncio
+import json
 
 import pytest
+from httpx import ASGITransport, AsyncClient
 from sqlalchemy import insert
 
 from app.config import settings
-import json
-from app.database import Model, new_session, engine
+from app.database import Model, engine, new_session
+from app.main import app as fastapi_app
 from app.models.tasks_models import TaskOrm
 from app.models.users_models import UserOrm
-
-from httpx import AsyncClient, ASGITransport
-from app.main import app as fastapi_app
 
 
 @pytest.fixture(scope="function", autouse=True)
@@ -36,7 +35,7 @@ async def prepare_db():
             i.update(password=bytes(i.get("password"), "utf-8"))
 
         async with new_session() as session:
-            """Наполнение данными тестовой бд"""
+            """Наполнение данными тестовой бд."""
             add_users = insert(UserOrm).values(users)
             add_tasks = insert(TaskOrm).values(tasks)
 

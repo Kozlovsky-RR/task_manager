@@ -1,9 +1,10 @@
 """Модель sqlalchemy для создания таблицы users."""
 
-from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import TYPE_CHECKING
-from app.database import Model
 
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from app.database import Model
 
 if TYPE_CHECKING:
     from app.models.tasks_models import TaskOrm

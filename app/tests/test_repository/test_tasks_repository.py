@@ -1,8 +1,9 @@
 """Тесты работы с таблицей tasks."""
 
+import pytest
+
 from app.models.tasks_models import TaskOrm
 from app.repository.tasks_repository import TaskRepository
-import pytest
 
 
 @pytest.mark.parametrize(

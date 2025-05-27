@@ -26,7 +26,9 @@ dependencies = [
     "alembic (>=1.15.2,<2.0.0)",
     "pytest-dotenv (>=0.5.2,<0.6.0)",
     "gunicorn (>=23.0.0,<24.0.0)",
-    "loguru (>=0.7.3,<0.8.0)"
+    "loguru (>=0.7.3,<0.8.0)",
+    "isort (>=6.0.1,<7.0.0)",
+    "docformatter (>=1.7.7,<2.0.0)"
 ]
 
 [tool.poetry]
@@ -39,3 +41,16 @@ black = "^25.1.0"
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+skip_gitignore = true

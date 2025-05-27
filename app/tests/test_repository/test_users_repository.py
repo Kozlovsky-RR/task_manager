@@ -1,9 +1,10 @@
 """Тесты работы с таблицей users."""
 
+import pytest
+
 from app.auth.utils import hash_password
 from app.models.users_models import UserOrm
 from app.repository.user_repository import UserRepository
-import pytest
 
 
 @pytest.mark.parametrize(
